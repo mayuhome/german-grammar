@@ -2,6 +2,9 @@ import { defineConfig, type UserConfigExport } from '@tarojs/cli'
 import devConfig from './dev'
 import prodConfig from './prod'
 
+import { UnifiedViteWeappTailwindcssPlugin } from 'weapp-tailwindcss/vite'
+import tailwindcss from '@tailwindcss/postcss'
+
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig<'vite'>(async (merge, { command, mode }) => {
   const baseConfig: UserConfigExport<'vite'> = {
@@ -26,7 +29,23 @@ export default defineConfig<'vite'>(async (merge, { command, mode }) => {
       }
     },
     framework: 'react',
-    compiler: 'vite',
+    compiler: {
+      type: 'vite',
+      vitePlugins: [
+              {
+        name: 'postcss-config-loader-plugin',
+        config(config) {
+          // 加载 tailwindcss
+          if (typeof config.css?.postcss === 'object') {
+            config.css?.postcss.plugins?.unshift(tailwindcss())
+          }
+        },
+      },
+      UnifiedViteWeappTailwindcssPlugin({
+        rem2rpx: true,
+      })
+      ]
+    },
     mini: {
       postcss: {
         pxtransform: {

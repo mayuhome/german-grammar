@@ -18,7 +18,7 @@ export default class Index extends Component<PropsWithChildren> {
       //   <Text>Hello world!</Text>
       // </View>
       <View>
-        <Text>Hello world!</Text>
+        <Text className='text-red-500'>Hello world!</Text>
         <Button type='primary'>I need Taro UI</Button>
         <Text>Taro UI 支持 Vue 了吗？</Text>
         <Button type='primary'>支持</Button>
